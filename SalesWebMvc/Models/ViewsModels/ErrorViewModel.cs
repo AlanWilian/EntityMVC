@@ -1,6 +1,6 @@
 using System;
 
-namespace SalesWebMvc.Models {
+namespace SalesWebMvc.ViewsModels.Models {
     public class ErrorViewModel {
         public string RequestId { get; set; }
 
