@@ -31,6 +31,19 @@ namespace SalesWebMvc.Services
         }
 
 
+        public async Task<Seller> FindByIdAsync(int id)
+        {
+            return await _context.Seller.Include(obj => obj.Departments).FirstOrDefaultAsync(obj => obj.Id == id);
+        }
+
+        public async Task RemoveAsync(int id)
+        {
+            var obj = await _context.Seller.FindAsync(id);
+            _context.Seller.Remove(obj);
+            await _context.SaveChangesAsync();
+
+        }
+
     }
 
 }

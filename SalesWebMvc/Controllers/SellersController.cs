@@ -16,7 +16,7 @@ namespace SalesWebMvc.Controllers
         private readonly DepartmentService _departmentService;
 
 
-         public SellersController(SellerService sellerService, DepartmentService departmentService)
+        public SellersController(SellerService sellerService, DepartmentService departmentService)
         {
             _sellerService = sellerService;
             _departmentService = departmentService;
@@ -42,5 +42,34 @@ namespace SalesWebMvc.Controllers
             await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = await _sellerService.FindByIdAsync(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _sellerService.RemoveAsync(id);
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
+
     }
 }
