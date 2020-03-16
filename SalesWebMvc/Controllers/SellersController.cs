@@ -40,6 +40,12 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Seller seller)
         {
+            if (!ModelState.IsValid)
+            {
+                var departments = await _departmentService.FindAllAsync();
+                var viewModel = new SellerFormViewModels { Seller = seller, Departments = departments };
+                return View(viewModel);
+            }
             await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));
         }
